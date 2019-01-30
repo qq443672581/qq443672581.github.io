@@ -1,8 +1,47 @@
 <html>
-  <head>
+<head>
     <title>fivewords's blog</title>
-  </head>
-  <body>
-    <p>Hello World!</p>
-  </body>
+    <link href="css/common.css" rel="stylesheet"/>
+    <link href="css/index.css" rel="stylesheet"/>
+    <!--<script src="js/jquery.min.js" type="text/javascript"></script>-->
+</head>
+<body>
+<div id="app">
+    <div class="top" id="top">
+        <div class="top_title">
+            <div class="left">
+            </div>
+            <ul class="right">
+                <li><a href="#">关于</a></li>
+                <li><a href="#">音乐</a></li>
+                <li><a href="#">图像</a></li>
+                <li><a href="#">文章</a></li>
+                <li><a href="#">时间</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="main">
+        <!--内容-->
+        <div class="box" v-for="item in contents">
+            <div class="head">
+                <img :src="item.photo"/>
+                <div class="nick"><a href="#">{{item.author}}</a></div>
+            </div>
+            <div class="content">
+                {{item.content}}
+            </div>
+            <div class="memo">
+                <span class="tag" v-for="tag in item.tags">{{tag}}</span>
+                <div class="date">{{item.date}}</div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="js/common.js" type="text/javascript"></script>
+<script src="js/vue.min.js" type="text/javascript"></script>
+<script src="js/vue-resource.min.js" type="text/javascript"></script>
+<script src="js/index.js" type="text/javascript"></script>
+</body>
 </html>
