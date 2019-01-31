@@ -22,13 +22,6 @@
         </div>
     </div>
     <div class="main_wrap" id="main_wrap">
-        <div class="spinner" :class="loading?'show':'hide'">
-            <div class="rect1"></div>
-            <div class="rect2"></div>
-            <div class="rect3"></div>
-            <div class="rect4"></div>
-            <div class="rect5"></div>
-        </div>
         <div class="main">
             <!--内容-->
             <div class="box" v-for="item in contents">
@@ -43,6 +36,15 @@
                 </div>
             </div>
 
+            <div :class="loading?'show':'hide'">
+                <div class="spinner">
+                    <div class="rect1"></div>
+                    <div class="rect2"></div>
+                    <div class="rect3"></div>
+                    <div class="rect4"></div>
+                    <div class="rect5"></div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
