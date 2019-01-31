@@ -57,6 +57,9 @@ body {
     .main {
         width: 100%;
     }
+    .top_title {
+        width: 100%;
+    }
 }
 
 .main .box {
