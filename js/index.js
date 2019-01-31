@@ -5,18 +5,12 @@ var app = new Vue({
     },
     methods: {
         load: function () {
-            var id = new Date().getTime();
-            window.jsonp_article_id = id;
-            this.$http.jsonp("data/test.js", {
-                jsonp: 'cb', params: {
-                    id: id
-                }
-            }).then(function (res) {
-                // res.body[0].content = Mdjs.md2html(res.body[0].content);
-                this.contents.pushAll(res.body);
-            }, function (e) {
-                console.log("err");
-            });
+            this.$http.get("https://raw.githubusercontent.com/qq443672581/qq443672581.github.io/master/data/article/welcome.md").then(function(res){
+                var text = res.bodyText;
+                var d = $("<div>");
+                console.log($.parseHTML("<div>"+res.bodyText+"</div>",true)[0])
+            })
+
         }
     },
     created: function () {
