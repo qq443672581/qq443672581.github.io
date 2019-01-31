@@ -66,11 +66,13 @@ var app = new Vue({
             this.$http.get("https://raw.githubusercontent.com/qq443672581/qq443672581.github.io/master/data/article/welcome.md").then(function (res) {
                 this.loading = false;
                 var article = parseMd(res.bodyText);
-                for (var i = 0; i < 10; i++) {
-                    var newObj = JSON.parse(JSON.stringify(article));
-                    newObj.index = i;
-                    this.contents.push(newObj);
-                }
+                article.index = 0;
+                this.contents.push(article);
+                // for (var i = 1; i < 10; i++) {
+                //     var newObj = JSON.parse(JSON.stringify(article));
+                //     newObj.index = i;
+                //     this.contents.push(newObj);
+                // }
             })
         },
         look: function (index) {
@@ -79,7 +81,8 @@ var app = new Vue({
         },
         callback: function () {
             this.detail = null;
-            document.body.scrollTop = 600
+            $( window ).scrollLeft( 500 )
+            $("#main_wrap").scrollLeft(500);
         }
     },
     created: function () {
