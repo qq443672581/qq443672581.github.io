@@ -1,7 +1,8 @@
 <html>
 <head>
     <title>FiveWords's blog</title>
-    <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport"
+          content="width=device-width,height=device-height,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link href="css/common.css" rel="stylesheet"/>
     <link href="css/index.css" rel="stylesheet"/>
 </head>
@@ -21,6 +22,13 @@
         </div>
     </div>
     <div class="main_wrap" id="main_wrap">
+        <div class="spinner" :class="loading?'show':'hide'">
+            <div class="rect1"></div>
+            <div class="rect2"></div>
+            <div class="rect3"></div>
+            <div class="rect4"></div>
+            <div class="rect5"></div>
+        </div>
         <div class="main">
             <!--内容-->
             <div class="box" v-for="item in contents">

@@ -1,11 +1,13 @@
 var app = new Vue({
     el: "#app",
     data: {
+        loading:true,
         contents: []
     },
     methods: {
         load: function () {
             this.$http.get("https://raw.githubusercontent.com/qq443672581/qq443672581.github.io/master/data/article/welcome.md").then(function (res) {
+                this.loading = false;
                 this.contents.push(parseMd(res.bodyText));
             })
         }
