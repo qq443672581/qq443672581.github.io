@@ -12,6 +12,7 @@ var app = new Vue({
                     id: id
                 }
             }).then(function (res) {
+                // res.body[0].content = Mdjs.md2html(res.body[0].content);
                 this.contents.pushAll(res.body);
             }, function (e) {
                 console.log("err");

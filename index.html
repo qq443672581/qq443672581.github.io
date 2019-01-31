@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>fivewords's blog</title>
+    <title>FiveWords's blog</title>
     <link href="css/common.css" rel="stylesheet"/>
     <link href="css/index.css" rel="stylesheet"/>
 </head>
@@ -26,9 +26,7 @@
                 <img :src="item.photo"/>
                 <div class="nick"><a href="#">{{item.author}}</a></div>
             </div>
-            <div class="content">
-                {{item.content}}
-            </div>
+            <div class="content"  v-html="item.content"></div>
             <div class="memo">
                 <span class="tag" v-for="tag in item.tags">{{tag}}</span>
                 <div class="date">{{item.date}}</div>
@@ -38,9 +36,11 @@
     </div>
 </div>
 
+<script src="js/tool/jquery.min.js" type="text/javascript"></script>
+<script src="js/tool/md.min.js" type="text/javascript"></script>
+<script src="js/tool/vue.min.js" type="text/javascript"></script>
+<script src="js/tool/vue-resource.min.js" type="text/javascript"></script>
 <script src="js/common.js" type="text/javascript"></script>
-<script src="js/vue.min.js" type="text/javascript"></script>
-<script src="js/vue-resource.min.js" type="text/javascript"></script>
 <script src="js/index.js" type="text/javascript"></script>
 </body>
 </html>

@@ -7,7 +7,7 @@ Array.prototype.pushAll = function (arrs) {
     }
 };
 
-function getJsonContent(){
+function loadData(data){
     var scripts = document.getElementsByTagName("script");
     var cb = null;
     for(var i=0;i<scripts.length;i++){
@@ -29,7 +29,6 @@ function getJsonContent(){
         }
     }
     if(cb){
-        return cb;
+        window[cb](data);
     }
-    return null;
 }
