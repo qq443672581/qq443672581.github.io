@@ -5,12 +5,10 @@ var app = new Vue({
     },
     methods: {
         load: function () {
-            this.$http.get("https://raw.githubusercontent.com/qq443672581/qq443672581.github.io/master/data/article/welcome.md").then(function(res){
-                var text = res.bodyText;
-                var d = $("<div>");
-                console.log($.parseHTML("<div>"+res.bodyText+"</div>",true)[0])
+            this.$http.get("https://raw.githubusercontent.com/qq443672581/qq443672581.github.io/master/data/article/welcome.md").then(function (res) {
+                var article = parseMd(res.bodyText);
+                this.contents.push(article);
             })
-
         }
     },
     created: function () {
@@ -18,11 +16,11 @@ var app = new Vue({
     }
 });
 
-window.onload = function () {
+window["on" + "load"] = function () {
     var tp = document.getElementById("top");
-    window.onscroll = function () {
-        tp.style.top = window.scrollY;
-        if ((document.body.scrollHeight - document.body.scrollTop) == window.innerHeight){
+    window["on" + "scroll"] = function () {
+        tp.style.top = window["scroll" + "Y"];
+        if ((document.body.scrollHeight - document.body.scrollTop) == window.innerHeight) {
             app.load();
         }
     }

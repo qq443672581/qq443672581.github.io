@@ -6,29 +6,31 @@ Array.prototype.pushAll = function (arrs) {
         this.push(arrs[i]);
     }
 };
-
-function loadData(data){
-    var scripts = document.getElementsByTagName("script");
-    var cb = null;
-    for(var i=0;i<scripts.length;i++){
-        if(scripts[i].src.indexOf(window.jsonp_article_id) != -1){
-            cb = scripts[i].src;
+/**
+ * 解析 md 文件
+ * @param bodyText
+ */
+function parseMd(bodyText) {
+    var arr = bodyText.split("\n");
+    var i = 0;
+    var propsStr = [], props = {};
+    for (; i < arr.length; i++) {
+        if (arr[i].trim() == "") {
             break;
         }
+        propsStr.push(arr[i]);
     }
-    if(cb){
-        var sc = cb;
-        cb = null;
-        sc = sc.substring(1);
-        var ps = sc.split("&");
-        for(var i=0;i<ps.length;i++){
-            var kv = ps[i].split("=");
-            if(kv[0] == "cb"){
-                cb = kv[1];
-            }
-        }
+    //
+    var reg = new RegExp(/\[(.*)\:(.*)\]\:\s(.*)/);
+    for (i = 0; i < propsStr.length; i++) {
+        var groups = reg.exec(propsStr[i]);
+        props[groups[2]] = groups[3];
     }
-    if(cb){
-        window[cb](data);
+    //
+    if(props.tags){
+        props.tags = props.tags.split(",");
     }
+    var body = arr.slice(i + 1, arr.length).join("\n");
+    props.content = Mdjs.md2html(body);
+    return props;
 }
