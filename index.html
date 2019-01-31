@@ -29,7 +29,7 @@
                     <img :src="item.photo"/>
                     <div class="nick"><a href="#">{{item.author}}</a></div>
                 </div>
-                <div class="content" v-html="item.content"></div>
+                <div class="content" v-html="item.memo"></div>
                 <div class="memo">
                     <span class="tag" v-for="tag in item.tags">{{tag}}</span>
                     <div class="date">{{item.date}}</div>
