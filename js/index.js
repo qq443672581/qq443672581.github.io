@@ -1,15 +1,85 @@
+/**
+ * 下拉加载
+ */
+window["on" + "load"] = function () {
+    window.scroll_ele = document.getElementById("main_wrap");
+    scroll_ele["on" + "scroll"] = function () {
+        if ((scroll_ele.scrollHeight - scroll_ele.scrollTop) == (window.innerHeight - 50)) {
+            app.load();
+        }
+    }
+};
+
+/**
+ * 解析 md 文件
+ * @param bodyText
+ */
+function parseMd(bodyText) {
+    var arr = bodyText.split("\n");
+    var i = 0;
+    var propsStr = [], props = {};
+    for (; i < arr.length; i++) {
+        if (arr[i].trim() == "") {
+            break;
+        }
+        propsStr.push(arr[i]);
+    }
+    //
+    var reg = new RegExp(/\[(.*)\:(.*)\]\:\s(.*)/);
+    for (var j = 0; j < propsStr.length; j++) {
+        var groups = reg.exec(propsStr[j]);
+        props[groups[2]] = groups[3];
+    }
+    //
+    if (props.tags) {
+        props.tags = props.tags.split(",");
+    }
+    if (!props.memo) {
+        var ms = [];
+        if (i + 1 < arr.length) {
+            ms.push(arr[i + 1]);
+        }
+        if (i + 2 < arr.length) {
+            ms.push(arr[i + 2]);
+        }
+        if (i + 3 < arr.length) {
+            ms.push(arr[i + 3]);
+        }
+        props.memo = Mdjs.md2html(ms.join("\n"));
+    }
+    var body = arr.slice(i + 1, arr.length).join("\n");
+    props.content = Mdjs.md2html(body);
+    return props;
+}
+
+var config = {}
 var app = new Vue({
     el: "#app",
     data: {
-        loading:true,
-        contents: []
+        loading: true,
+        contents: [],
+        detail: null
     },
     methods: {
         load: function () {
+            this.loading = true;
             this.$http.get("https://raw.githubusercontent.com/qq443672581/qq443672581.github.io/master/data/article/welcome.md").then(function (res) {
                 this.loading = false;
-                this.contents.push(parseMd(res.bodyText));
+                var article = parseMd(res.bodyText);
+                for (var i = 0; i < 10; i++) {
+                    var newObj = JSON.parse(JSON.stringify(article));
+                    newObj.index = i;
+                    this.contents.push(newObj);
+                }
             })
+        },
+        look: function (index) {
+            config.scrollTop = scroll_ele.scrollTop;
+            this.detail = this.contents[index];
+        },
+        callback: function () {
+            this.detail = null;
+            document.body.scrollTop = 600
         }
     },
     created: function () {
@@ -17,11 +87,3 @@ var app = new Vue({
     }
 });
 
-window["on" + "load"] = function () {
-    var ele = document.getElementById("main_wrap");
-    ele["on" + "scroll"] = function () {
-        if ((ele.scrollHeight - ele.scrollTop) == (window.innerHeight - 50)) {
-            app.load();
-        }
-    }
-};
