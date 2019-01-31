@@ -6,9 +6,7 @@ var app = new Vue({
     methods: {
         load: function () {
             this.$http.get("https://raw.githubusercontent.com/qq443672581/qq443672581.github.io/master/data/article/welcome.md").then(function (res) {
-                for (var i = 0; i < 10; i++) {
-                    this.contents.push(parseMd(res.bodyText));
-                }
+                this.contents.push(parseMd(res.bodyText));
             })
         }
     },

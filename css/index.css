@@ -57,8 +57,13 @@ body {
     .main {
         width: 100%;
     }
+
     .top_title {
         width: 100%;
+    }
+
+    .top_title .right li {
+        padding: 0 10px;
     }
 }
 
