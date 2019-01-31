@@ -19,20 +19,22 @@
             </ul>
         </div>
     </div>
-    <div class="main">
-        <!--内容-->
-        <div class="box" v-for="item in contents">
-            <div class="head">
-                <img :src="item.photo"/>
-                <div class="nick"><a href="#">{{item.author}}</a></div>
+    <div class="main_wrap" id="main_wrap">
+        <div class="main">
+            <!--内容-->
+            <div class="box" v-for="item in contents">
+                <div class="head">
+                    <img :src="item.photo"/>
+                    <div class="nick"><a href="#">{{item.author}}</a></div>
+                </div>
+                <div class="content" v-html="item.content"></div>
+                <div class="memo">
+                    <span class="tag" v-for="tag in item.tags">{{tag}}</span>
+                    <div class="date">{{item.date}}</div>
+                </div>
             </div>
-            <div class="content"  v-html="item.content"></div>
-            <div class="memo">
-                <span class="tag" v-for="tag in item.tags">{{tag}}</span>
-                <div class="date">{{item.date}}</div>
-            </div>
-        </div>
 
+        </div>
     </div>
 </div>
 

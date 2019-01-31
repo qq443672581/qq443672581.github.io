@@ -6,8 +6,9 @@ var app = new Vue({
     methods: {
         load: function () {
             this.$http.get("https://raw.githubusercontent.com/qq443672581/qq443672581.github.io/master/data/article/welcome.md").then(function (res) {
-                var article = parseMd(res.bodyText);
-                this.contents.push(article);
+                for (var i = 0; i < 10; i++) {
+                    this.contents.push(parseMd(res.bodyText));
+                }
             })
         }
     },
@@ -17,10 +18,9 @@ var app = new Vue({
 });
 
 window["on" + "load"] = function () {
-    var tp = document.getElementById("top");
-    window["on" + "scroll"] = function () {
-        tp.style.top = window["scroll" + "Y"];
-        if ((document.body.scrollHeight - document.body.scrollTop) == window.innerHeight) {
+    var ele = document.getElementById("main_wrap");
+    ele["on" + "scroll"] = function () {
+        if ((ele.scrollHeight - ele.scrollTop) == (window.innerHeight - 50)) {
             app.load();
         }
     }
