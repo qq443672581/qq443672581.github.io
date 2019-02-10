@@ -92,17 +92,17 @@ var app = new Vue({
                 return ;
             }
             // 继续加载数据
-            main.$http.get(config.basePath + "/master/data/menus/" + main.page.menu_index + ".json?" + random()).then(function (res) {
+            main.$http.get(config.basePath + "/master/data/menus/" + main.page.menu_index + ".json?" + new Date().getTime()).then(function (res) {
                 main.page.menu_index--;
-                main.page.next_all.pushAll(res.body);
+                main.page.next_all.pushAll(res.body.reverse());
                 main.loadMenu(main);
             })
         },
         // 加载置顶文章
         loadTopData: function () {
             var _this = this;
-            this.$http.get(config.basePath + "/master/data/menus/top.json?" + random()).then(function (res) {
-                _this.page.next_bag.pushAll(res.body);
+            this.$http.get(config.basePath + "/master/data/menus/top.json?" + urlRandom()).then(function (res) {
+                _this.page.next_bag.pushAll(res.body.reverse());
                 _this.loadData(_this, function () {
                     _this.loadMenu(_this);
                 });
@@ -123,7 +123,7 @@ var app = new Vue({
                 .replace("@year",obj.year)
                 .replace("@month",obj.month)
                 .replace("@name",obj.name)
-            + random();
+            + urlRandom();
 
             main.$http.get(url).then(function (res) {
                 var article = parseMd(res.bodyText);

@@ -7,6 +7,6 @@ Array.prototype.pushAll = function (arrs) {
     }
 };
 
-function random(){
-    return Math.random().toFixed(3)*1000
+function urlRandom(){
+    return (new Date().getTime()/1000/60).toFixed(0);
 }
