@@ -70,6 +70,7 @@ var app = new Vue({
             page_size:5,
             isEnd: false // 没有数据了
         },
+        top_article:[],
         contents: [],
         detail: null
     },
@@ -99,6 +100,7 @@ var app = new Vue({
                 main.loadMenu(main);
             })
         },
+        // 加载文章
         loadData: function(main){
             var obj = main.page.next_bag.shift();
             if(!obj){
@@ -118,6 +120,7 @@ var app = new Vue({
                 main.loadData(main);
             })
         },
+        // 加载
         load: function () {
             // load
             if(this.page.isEnd){
@@ -125,12 +128,16 @@ var app = new Vue({
             }
 
             this.loading = true;
+            // 置空
+            this.page.next_bag = [];
             this.loadMenu(this);
         },
+        // 查看详情
         look: function (index) {
             config.scrollTop = scroll_ele.scrollTop;
-            this.detail = this.contents[index];
+            this.detail = this.contents[index - 1];
         },
+        // 关闭详情
         callback: function () {
             this.detail = null;
             $( window ).scrollLeft( 500 )
