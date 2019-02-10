@@ -54,7 +54,8 @@ function parseMd(bodyText) {
 
 var config = {
     basePath : "https://raw.githubusercontent.com/qq443672581/qq443672581.github.io",
-    maxMenu : 2
+    maxMenu : 2,
+    topArticle:[]
 };
 
 var app = new Vue({
@@ -70,7 +71,6 @@ var app = new Vue({
             page_size:5,
             isEnd: false // 没有数据了
         },
-        top_article:[],
         contents: [],
         detail: null
     },
@@ -79,17 +79,15 @@ var app = new Vue({
         loadMenu: function (main) {
             // 检查上一次加载的数据是不是还够用
             main.page.next_bag.pushAll(main.page.next_all.splice(0,main.page.page_size - main.page.next_bag.length));
-            if(main.page.next_bag.length == main.page.page_size){
-                // 够,加载数据
-                console.log("准备加载数据")
-                main.loadData(main);
-                return ;
-            }
-            // 没有办法继续加载数据了
-            if(main.page.menu_index <= 0){
-                // 没有数据了
-                console.log("没数据了")
-                main.page.isEnd = true;
+
+            // 数据够了 或者 没有数据了
+            if(
+                main.page.next_bag.length == main.page.page_size || main.page.menu_index <= 0
+            ){
+                if(main.page.menu_index <= 0){
+                    // 没有数据了
+                    main.page.isEnd = true;
+                }
                 main.loadData(main);
                 return ;
             }
@@ -100,10 +98,23 @@ var app = new Vue({
                 main.loadMenu(main);
             })
         },
+        // 加载置顶文章
+        loadTopData: function () {
+            var _this = this;
+            this.$http.get(config.basePath + "/master/data/menus/top.json").then(function (res) {
+                _this.page.next_bag.pushAll(res.body);
+                _this.loadData(_this, function () {
+                    _this.loadMenu(_this);
+                });
+            })
+        },
         // 加载文章
-        loadData: function(main){
+        loadData: function(main, callback){
             var obj = main.page.next_bag.shift();
             if(!obj){
+                if(callback){
+                    callback();
+                }
                 main.loading = false;
                 return ;
             }
@@ -119,6 +130,17 @@ var app = new Vue({
                 main.contents.push(article);
                 main.loadData(main);
             })
+        },
+        initLoad: function () {
+            // load
+            if(this.page.isEnd){
+                return ;
+            }
+
+            this.loading = true;
+            // 置空
+            this.page.next_bag = [];
+            this.loadTopData();
         },
         // 加载
         load: function () {
@@ -145,7 +167,7 @@ var app = new Vue({
         }
     },
     created: function () {
-        this.load();
+        this.initLoad();
     }
 });
 
