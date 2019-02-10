@@ -52,18 +52,24 @@ function parseMd(bodyText) {
     return props;
 }
 
-var config = {}
+var config = {
+    basePath : "https://raw.githubusercontent.com/qq443672581/qq443672581.github.io"
+}
 var app = new Vue({
     el: "#app",
     data: {
         loading: true,
+        page:{
+            page: 0,
+            index: 0
+        },
         contents: [],
         detail: null
     },
     methods: {
         load: function () {
             this.loading = true;
-            this.$http.get("https://raw.githubusercontent.com/qq443672581/qq443672581.github.io/master/data/article/2019/02/我今年二十七八.md").then(function (res) {
+            this.$http.get(config.basePath + "/master/data/article/2019/02/我今年二十七八.md").then(function (res) {
                 this.loading = false;
                 var article = parseMd(res.bodyText);
                 article.index = 0;
