@@ -103,6 +103,7 @@ var app = new Vue({
             var obj = main.page.next_bag.shift();
             if(!obj){
                 main.loading = false;
+                return ;
             }
 
             var url = config.basePath + "/master/data/article/@year/@month/@name"
@@ -118,6 +119,7 @@ var app = new Vue({
             })
         },
         load: function () {
+            // load
             if(this.page.isEnd){
                 return ;
             }
