@@ -6,3 +6,7 @@ Array.prototype.pushAll = function (arrs) {
         this.push(arrs[i]);
     }
 };
+
+function random(){
+    return Math.random().toFixed(3)*1000
+}

@@ -84,15 +84,15 @@ var app = new Vue({
             if(
                 main.page.next_bag.length == main.page.page_size || main.page.menu_index <= 0
             ){
-                if(main.page.menu_index <= 0){
+                main.loadData(main);
+                if(main.page.menu_index <= 0 && main.page.next_all.length == 0){
                     // 没有数据了
                     main.page.isEnd = true;
                 }
-                main.loadData(main);
                 return ;
             }
             // 继续加载数据
-            main.$http.get(config.basePath + "/master/data/menus/" + main.page.menu_index + ".json").then(function (res) {
+            main.$http.get(config.basePath + "/master/data/menus/" + main.page.menu_index + ".json?" + random()).then(function (res) {
                 main.page.menu_index--;
                 main.page.next_all.pushAll(res.body);
                 main.loadMenu(main);
@@ -101,7 +101,7 @@ var app = new Vue({
         // 加载置顶文章
         loadTopData: function () {
             var _this = this;
-            this.$http.get(config.basePath + "/master/data/menus/top.json").then(function (res) {
+            this.$http.get(config.basePath + "/master/data/menus/top.json?" + random()).then(function (res) {
                 _this.page.next_bag.pushAll(res.body);
                 _this.loadData(_this, function () {
                     _this.loadMenu(_this);
@@ -119,16 +119,17 @@ var app = new Vue({
                 return ;
             }
 
-            var url = config.basePath + "/master/data/article/@year/@month/@name"
+            var url = config.basePath + "/master/data/article/@year/@month/@name?"
                 .replace("@year",obj.year)
                 .replace("@month",obj.month)
-                .replace("@name",obj.name);
+                .replace("@name",obj.name)
+            + random();
 
             main.$http.get(url).then(function (res) {
                 var article = parseMd(res.bodyText);
                 article.index = main.page.article_index++;
                 main.contents.push(article);
-                main.loadData(main);
+                main.loadData(main, callback);
             })
         },
         initLoad: function () {
@@ -156,6 +157,9 @@ var app = new Vue({
         },
         // 查看详情
         look: function (index) {
+            if(index < 1){
+                return ;
+            }
             config.scrollTop = scroll_ele.scrollTop;
             this.detail = this.contents[index - 1];
         },
@@ -170,4 +174,5 @@ var app = new Vue({
         this.initLoad();
     }
 });
+app.look(0);
 
