@@ -54,8 +54,7 @@ function parseMd(bodyText) {
 
 var config = {
     basePath : "https://raw.githubusercontent.com/qq443672581/qq443672581.github.io",
-    maxMenu : 2,
-    topArticle:[]
+    maxMenu : 1
 };
 
 var app = new Vue({
