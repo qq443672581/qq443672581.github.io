@@ -53,33 +53,77 @@ function parseMd(bodyText) {
 }
 
 var config = {
-    basePath : "https://raw.githubusercontent.com/qq443672581/qq443672581.github.io"
-}
+    basePath : "https://raw.githubusercontent.com/qq443672581/qq443672581.github.io",
+    maxMenu : 2
+};
+
 var app = new Vue({
     el: "#app",
     data: {
         loading: true,
         page:{
-            page: 0,
-            index: 0
+            menu_index:config.maxMenu,
+            next_bag:[],
+            next_all:[],
+
+            article_index:1,
+            page_size:5,
+            isEnd: false // 没有数据了
         },
         contents: [],
         detail: null
     },
     methods: {
-        load: function () {
-            this.loading = true;
-            this.$http.get(config.basePath + "/master/data/article/2019/02/我今年二十七八.md").then(function (res) {
-                this.loading = false;
-                var article = parseMd(res.bodyText);
-                article.index = 0;
-                this.contents.push(article);
-                // for (var i = 1; i < 10; i++) {
-                //     var newObj = JSON.parse(JSON.stringify(article));
-                //     newObj.index = i;
-                //     this.contents.push(newObj);
-                // }
+        // 加载一个菜单进来
+        loadMenu: function (main) {
+            // 检查上一次加载的数据是不是还够用
+            main.page.next_bag.pushAll(main.page.next_all.splice(0,main.page.page_size - main.page.next_bag.length));
+            if(main.page.next_bag.length == main.page.page_size){
+                // 够,加载数据
+                console.log("准备加载数据")
+                main.loadData(main);
+                return ;
+            }
+            // 没有办法继续加载数据了
+            if(main.page.menu_index <= 0){
+                // 没有数据了
+                console.log("没数据了")
+                main.page.isEnd = true;
+                main.loadData(main);
+                return ;
+            }
+            // 继续加载数据
+            main.$http.get(config.basePath + "/master/data/menus/" + main.page.menu_index + ".json").then(function (res) {
+                main.page.menu_index--;
+                main.page.next_all.pushAll(res.body);
+                main.loadMenu(main);
             })
+        },
+        loadData: function(main){
+            var obj = main.page.next_bag.shift();
+            if(!obj){
+                main.loading = false;
+            }
+
+            var url = config.basePath + "/master/data/article/@year/@month/@name"
+                .replace("@year",obj.year)
+                .replace("@month",obj.month)
+                .replace("@name",obj.name);
+
+            main.$http.get(url).then(function (res) {
+                var article = parseMd(res.bodyText);
+                article.index = main.page.article_index++;
+                main.contents.push(article);
+                main.loadData(main);
+            })
+        },
+        load: function () {
+            if(this.page.isEnd){
+                return ;
+            }
+
+            this.loading = true;
+            this.loadMenu(this);
         },
         look: function (index) {
             config.scrollTop = scroll_ele.scrollTop;
