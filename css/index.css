@@ -153,8 +153,13 @@ body {
     border-radius: 50%;
     cursor: pointer;
 }
-img{
+
+
+.content img{
     width: 100%;   
+}
+.content h2{
+    margin-bottom: 10px;
 }
 
 
