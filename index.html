@@ -23,7 +23,7 @@
         </div>
     </div>
     <div class="main_wrap" id="main_wrap">
-        <div class="main hide" v-show="!detail">
+        <div class="main" v-show="!detail">
             <!--内容-->
             <div class="box" v-for="item in contents" >
                 <!--<div class="head">-->
@@ -47,7 +47,7 @@
                 </div>
             </div>
         </div>
-        <div class="main hide" v-if="detail">
+        <div class="main" v-if="detail">
             <div class="box" style="position: relative">
                 <span class="callback" @click="callback">X</span>
                 <div class="memo">
