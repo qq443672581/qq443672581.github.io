@@ -14,7 +14,7 @@
             <div class="left">
             </div>
             <ul class="right">
-                <li v-for="item in menus"><a href="javascript:void(0)" @click="menuGoTo(item)">{{item.title}}</a></li>
+                <li v-for="item in menus"><a href="javascript:void(0)" @click="menuProcess(item)">{{item.title}}</a></li>
             </ul>
         </div>
     </div>
@@ -47,8 +47,8 @@
             <div class="box" style="position: relative">
                 <span class="callback" @click="callback">X</span>
                 <div class="memo">
-                    <span class="tag" v-for="tag in detail.tags">{{tag}}</span>
-                    <div class="date">{{detail.date}}</div>
+                    <span class="tag" v-for="tag in detail.tags" v-html="tag"></span>
+                    <div class="date" v-html="detail.date"></div>
                 </div>
                 <div class="content no_pointer" v-html="detail.content"></div>
             </div>

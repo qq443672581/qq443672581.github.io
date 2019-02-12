@@ -52,29 +52,35 @@ function parseMd(bodyText) {
     return props;
 }
 
+/**
+ * 配置信息
+ *
+ */
 var config = {
-    basePath : "https://raw.githubusercontent.com/qq443672581/qq443672581.github.io",
-    maxMenu : 1
+    basePath: "https://raw.githubusercontent.com/qq443672581/qq443672581.github.io",
+    // 当 data/menu/ 下  xxx.json 最大索引变化时，这里也要对应变化
+    maxMenu: 1,
+    menus: [
+        {title: "技术", code: "x"},
+        {title: "生活", code: "y"},
+        {title: "图像", code: "time"},
+        {title: "音乐", code: "time"},
+        {title: "关于我", type: "goto", code: "data/me/index.html"}
+    ]
 };
 
 var app = new Vue({
     el: "#app",
     data: {
-        menus:[
-            {title:"技术",code:"x"},
-            {title:"生活",code:"y"},
-            {title:"图像",code:"time"},
-            {title:"音乐",code:"time"},
-            {title:"关于我",type:"goto",code:"data/me.html"}
-        ].reverse(),
+        menus: config.menus.reverse(),
         loading: true,
-        page:{
-            menu_index:config.maxMenu,
-            next_bag:[],
-            next_all:[],
+        page: {
+            menu_index: config.maxMenu,
+            next_bag: [],
+            next_all: [],
 
-            article_index:1,
-            page_size:5,
+            article_index: 1,
+            page_size: 5,
             isEnd: false // 没有数据了
         },
         contents: [],
@@ -82,31 +88,38 @@ var app = new Vue({
         detail: null
     },
     methods: {
-        menuGoTo:function(menu){
-            if(!menu){
-                return ;
+        // 菜单处理
+        menuProcess: function (menu) {
+            if (!menu) {
+                return;
             }
-            if(menu.type === "goto"){
+            if (menu.type === "goto") {
                 location.href = menu.code;
-            }else{
+            } else if (menu.type === "detail") {
+                var _this = this;
+                this.$http.get(menu.code).then(function (res) {
+                    var article = parseMd(res.bodyText);
+                    _this.detail = article;
+                })
+            } else if (menu.type === "filter") {
 
             }
         },
         // 加载一个菜单进来
         loadMenu: function (main) {
             // 检查上一次加载的数据是不是还够用
-            main.page.next_bag.pushAll(main.page.next_all.splice(0,main.page.page_size - main.page.next_bag.length));
+            main.page.next_bag.pushAll(main.page.next_all.splice(0, main.page.page_size - main.page.next_bag.length));
 
             // 数据够了 或者 没有数据了
-            if(
+            if (
                 main.page.next_bag.length == main.page.page_size || main.page.menu_index <= 0
-            ){
+            ) {
                 main.loadData(main);
-                if(main.page.menu_index <= 0 && main.page.next_all.length == 0){
+                if (main.page.menu_index <= 0 && main.page.next_all.length == 0) {
                     // 没有数据了
                     main.page.isEnd = true;
                 }
-                return ;
+                return;
             }
             // 继续加载数据
             main.$http.get(config.basePath + "/master/data/menus/" + main.page.menu_index + ".json?" + new Date().getTime()).then(function (res) {
@@ -126,23 +139,23 @@ var app = new Vue({
             })
         },
         // 加载文章
-        loadData: function(main, callback){
+        loadData: function (main, callback) {
             var obj = main.page.next_bag.shift();
-            if(!obj){
-                if(callback){
+            if (!obj) {
+                if (callback) {
                     callback();
                 }
                 main.contents.pushAll(main.contents_bak);
                 main.contents_bak = [];
                 main.loading = false;
-                return ;
+                return;
             }
 
             var url = config.basePath + "/master/data/article/@year/@month/@name?"
-                .replace("@year",obj.year)
-                .replace("@month",obj.month)
-                .replace("@name",obj.name)
-            + urlRandom();
+                    .replace("@year", obj.year)
+                    .replace("@month", obj.month)
+                    .replace("@name", obj.name)
+                + urlRandom();
 
             main.$http.get(url).then(function (res) {
                 var article = parseMd(res.bodyText);
@@ -153,8 +166,8 @@ var app = new Vue({
         },
         initLoad: function () {
             // load
-            if(this.page.isEnd){
-                return ;
+            if (this.page.isEnd) {
+                return;
             }
 
             this.loading = true;
@@ -165,8 +178,8 @@ var app = new Vue({
         // 加载
         load: function () {
             // load
-            if(this.page.isEnd){
-                return ;
+            if (this.page.isEnd) {
+                return;
             }
 
             this.loading = true;
@@ -176,8 +189,8 @@ var app = new Vue({
         },
         // 查看详情
         look: function (index) {
-            if(index < 1){
-                return ;
+            if (index < 1) {
+                return;
             }
             config.scrollTop = scroll_ele.scrollTop;
             this.detail = this.contents[index - 1];
@@ -185,7 +198,7 @@ var app = new Vue({
         // 关闭详情
         callback: function () {
             this.detail = null;
-            $( window ).scrollLeft( 500 )
+            $(window).scrollLeft(500)
             $("#main_wrap").scrollLeft(500);
         }
     },
@@ -194,5 +207,5 @@ var app = new Vue({
     }
 });
 app.look(0);
-app.menuGoTo();
+app.menuProcess();
 
