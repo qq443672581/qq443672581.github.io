@@ -171,6 +171,7 @@ var app = new Vue({
     },
     created: function () {
         this.initLoad();
+        document.getElementById("main_wrap").style.display = "block";
     }
 });
 app.look(0);
