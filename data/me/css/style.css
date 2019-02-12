@@ -1321,7 +1321,7 @@ color: #F7EFE2;
 @media(max-width: 767px) {
 	body {
 		height: auto;
-		min-height: 1000px;
+		/*min-height: 1000px;*/
 		overflow-y: scroll;
 	}
 	#frontpage {

@@ -2,157 +2,8 @@
 (function ($) {
 "use strict";
 
-var mapLoaded = false,
-    map;
+var mapLoaded = false;
 /*---------------Google Maps Scripts-------------------------*/
-function initMap() {
-    var mapStyle = [
-        {
-            "featureType": "administrative",
-            "elementType": "all",
-            "stylers": [
-                {
-                    "saturation": "-100"
-                }
-            ]
-        },
-        {
-            "featureType": "administrative.province",
-            "elementType": "all",
-            "stylers": [
-                {
-                    "visibility": "off"
-                }
-            ]
-        },
-        {
-            "featureType": "landscape",
-            "elementType": "all",
-            "stylers": [
-                {
-                    "saturation": -100
-                },
-                {
-                    "lightness": 65
-                },
-                {
-                    "visibility": "on"
-                }
-            ]
-        },
-        {
-            "featureType": "poi",
-            "elementType": "all",
-            "stylers": [
-                {
-                    "saturation": -100
-                },
-                {
-                    "lightness": "50"
-                },
-                {
-                    "visibility": "simplified"
-                }
-            ]
-        },
-        {
-            "featureType": "road",
-            "elementType": "all",
-            "stylers": [
-                {
-                    "saturation": "-100"
-                }
-            ]
-        },
-        {
-            "featureType": "road.highway",
-            "elementType": "all",
-            "stylers": [
-                {
-                    "visibility": "simplified"
-                }
-            ]
-        },
-        {
-            "featureType": "road.arterial",
-            "elementType": "all",
-            "stylers": [
-                {
-                    "lightness": "30"
-                }
-            ]
-        },
-        {
-            "featureType": "road.local",
-            "elementType": "all",
-            "stylers": [
-                {
-                    "lightness": "40"
-                }
-            ]
-        },
-        {
-            "featureType": "transit",
-            "elementType": "all",
-            "stylers": [
-                {
-                    "saturation": -100
-                },
-                {
-                    "visibility": "simplified"
-                }
-            ]
-        },
-        {
-            "featureType": "transit.station.airport",
-            "elementType": "labels",
-            "stylers": [
-                {
-                    "saturation": "-16"
-                }
-            ]
-        },
-        {
-            "featureType": "water",
-            "elementType": "geometry",
-            "stylers": [
-                {
-                    "hue": "#ffff00"
-                },
-                {
-                    "lightness": -25
-                },
-                {
-                    "saturation": -97
-                }
-            ]
-        },
-        {
-            "featureType": "water",
-            "elementType": "labels",
-            "stylers": [
-                {
-                    "lightness": -25
-                },
-                {
-                    "saturation": -100
-                }
-            ]
-        }
-    ];
-    map = new google.maps.Map(document.getElementById('map'), {
-       center: {lat: 23.822724694190565, lng: 88.7800669670105},
-        // center: myCenter, 23.830262191202287 88.76633405685425
-        zoom: 11,
-        maptype: 'roadmap',
-        styles: mapStyle
-    });
-    google.maps.event.addListener(map,'click',function(e) {
-    console.log(e.latLng.lat(),e.latLng.lng())
-                     document.getElementById('latlongclicked').value = e.latLng.lat()
-                     document.getElementById('lotlongclicked').value =  e.latLng.lng()
-                 });
-}
 
 function showPage(bt, pagename) {
     var btn = $(bt),
@@ -175,7 +26,7 @@ function showPage(bt, pagename) {
                 },
                 duration: 400,
                 easing: TWEEN.Easing.Sinusoidal.Out
-            }, function() { // callback when tween is finished  
+            }, function() { // callback when tween is finished
                 pageContListSelected.addClass('hidden');
                 pageContListSelected.find(".description").css('height', '475px');
                 pageContListSelected.removeClass('selected');
@@ -206,9 +57,8 @@ function showPage(bt, pagename) {
                 duration: 700,
                 delay: 350,
                 easing: TWEEN.Easing.Sinusoidal.In
-            }, function() { // callback when tween is finished  
+            }, function() { // callback when tween is finished
                 if (pagename == "contact" && !mapLoaded) { //loads Maps
-                    initMap();
                     mapLoaded = true;
                 }
             });
@@ -243,7 +93,7 @@ function showPage(bt, pagename) {
                 },
                 duration: 400,
                 easing: TWEEN.Easing.Sinusoidal.Out
-            }, function() { // callback when tween is finished  
+            }, function() { // callback when tween is finished
                 pageContListSelected.addClass('hidden');
                 pageContListSelected.removeClass('selected');
                 pageContListID.removeClass('hidden');
@@ -277,9 +127,8 @@ function showPage(bt, pagename) {
                 duration: 700,
                 delay: 350,
                 easing: TWEEN.Easing.Sinusoidal.In
-            }, function() { // callback when tween is finished  
+            }, function() { // callback when tween is finished
                 if (pagename == "contact" && !mapLoaded) { //loads Maps
-                    initMap();
                     mapLoaded = true;
                 }
             });
@@ -321,7 +170,7 @@ function hidefront() {
         homeTitleContainer = pageHome.find(".title-container");
 
     frontPage.find(".front-img").css("opacity", 0);
-    //$(".overlay-div").fadeOut(2000);  
+    //$(".overlay-div").fadeOut(2000);
     if (window.innerWidth > 767) {
         var top = frontPage.position().top - ((window.innerHeight - 620) / 2);
         frontPage.jQueryTween({
@@ -343,7 +192,7 @@ function hidefront() {
             },
             duration: 1000,
             easing: TWEEN.Easing.Circular.Out
-        }, function() { // callback when tween i;'ll;'\s finished   
+        }, function() { // callback when tween i;'ll;'\s finished
             frontPage.addClass("hidden");
             frontPageContent.removeClass("hidden");
             centerContent();
@@ -365,7 +214,7 @@ function hidefront() {
             },
             duration: 1000,
             easing: TWEEN.Easing.Circular.Out
-        }, function() { // callback when tween is finished  
+        }, function() { // callback when tween is finished
             frontPage.addClass("hidden");
             frontPageContent.removeClass("hidden");
             centerContent();
@@ -419,7 +268,7 @@ function hidefront() {
         homeTitleContainer.removeClass("hidden");
         $("#profile-img").removeClass('transparent');
     });
-    
+
     homeTitleContainer.jQueryTween({
         from: {
             translate: {
@@ -464,7 +313,7 @@ function hidefront() {
 function centerContent() {
     var content = $('#content'),
         frontMain = $('#frontpage');
-        
+
     if (window.innerWidth > 767) {
         content.css("top", (window.innerHeight - content.height()) / 2);
     } else {
@@ -499,19 +348,17 @@ $(document).on('ready', function() {
 
     setTimeout(function(){
         $(".frontclick").addClass('active');
-    },4000);
+    },1000);
 
-
-    initMap();
 
     $('.tabs').tabslet({
       mouseevent: 'click',
       attribute: 'href',
       animation: true
     });
-    
 
-    
+
+
     frontPage.on('click', function() {
         $(".frontclick").removeClass('active');
         hidefront();
@@ -538,7 +385,7 @@ $(document).on('ready', function() {
         itemSelector: '.view',
         layoutMode: 'fitRows'
     });
- 
+
     // bind filter button click
     $('.filters-button-group').on('click', 'li', function() {
         var filterValue = $(this).attr('data-filter');
@@ -567,15 +414,15 @@ $(document).on('ready', function() {
         });
     });
 
-    var firstTime = false;
+    var isFirst = true;
     $("#resume-btn").on('click', function() {
-        if (!firstTime) {
-            var startColor = '#f4d03f';
-            var endColor = '#f4d03f';
-            var element1 = document.getElementById('line-container1');
-            var element2 = document.getElementById('line-container2');
-            var element3 = document.getElementById('line-container3');
-            var circle1 = new ProgressBar.Circle(element1, {
+        if(!isFirst){
+            return ;
+        }
+        var startColor = '#f4d03f';
+        var endColor = '#f4d03f';
+        $(".line-containers").each(function (index, item) {
+            var circle = new ProgressBar.Circle(item, {
                 color: startColor,
                 trailColor: '#fff6da',
                 trailWidth: 7,
@@ -583,81 +430,13 @@ $(document).on('ready', function() {
                 easing: 'easeInOut',
                 strokeWidth: 8,
                 // Set default step function for all animate calls
-                step: function(state, circle1) {
-                    circle1.path.setAttribute('stroke', state.color);
-                    $("#progress-text1").text((circle1.value() * 100).toFixed(0) + "%");
+                step: function(state, circle) {
+                    circle.path.setAttribute('stroke', state.color);
+                    $(item).children().first().text((circle.value() * 100).toFixed(0) + "%");
                 }
-            });
-            var circle2 = new ProgressBar.Circle(element2, {
-                color: startColor,
-                trailColor: '#fff6da',
-                trailWidth: 7,
-                duration: 2000,
-                easing: 'easeInOut',
-                strokeWidth: 8,
-                // Set default step function for all animate calls
-                step: function(state, circle2) {
-                    circle2.path.setAttribute('stroke', state.color);
-                    $("#progress-text2").text((circle2.value() * 100).toFixed(0) + "%");
-                }
-            });
-            var circle3 = new ProgressBar.Circle(element3, {
-                color: startColor,
-                trailColor: '#fff6da',
-                trailWidth: 7,
-                duration: 2000,
-                easing: 'easeInOut',
-                strokeWidth: 8,
-                // Set default step function for all animate calls
-                step: function(state, circle3) {
-                    circle3.path.setAttribute('stroke', state.color);
-                    $("#progress-text3").text((circle3.value() * 100).toFixed(0) + "%");
-                }
-            });
-            var line = new ProgressBar.Line('#bar1', {
-                strokeWidth: 20,
-                easing: 'easeInOut',
-                duration: 1400,
-                color: '#f4d03f',
-                trailColor: '#fff6da',
-                trailWidth: 21,
-            });
-            var line2 = new ProgressBar.Line('#bar2', {
-                strokeWidth: 20,
-                easing: 'easeInOut',
-                duration: 1400,
-                color: '#f4d03f',
-                trailColor: '#fff6da',
-                trailWidth: 21,
-            });
-            var line3 = new ProgressBar.Line('#bar3', {
-                strokeWidth: 20,
-                easing: 'easeInOut',
-                duration: 1400,
-                color: '#f4d03f',
-                trailColor: '#fff6da',
-                trailWidth: 21,
             });
             setTimeout(function() {
-                circle1.animate(0.85, {
-                    from: {
-                        color: startColor
-                    },
-                    to: {
-                        color: endColor
-                    }
-                });
-                circle3.animate(0.95, {
-                    from: {
-                        color: startColor
-                    },
-                    to: {
-                        color: endColor
-                    }
-                });
-            }, 1200);
-            setTimeout(function() {
-                circle2.animate(0.70, {
+                circle.animate(0.70, {
                     from: {
                         color: startColor
                     },
@@ -666,17 +445,29 @@ $(document).on('ready', function() {
                     }
                 });
             }, 1500);
+        })
+
+        // 动态
+        $(".bars").each(function (index,item) {
+            var line = new ProgressBar.Line(item, {
+                strokeWidth: 20,
+                easing: 'easeInOut',
+                duration: 1400,
+                color: '#f4d03f',
+                trailColor: '#fff6da',
+                trailWidth: 21,
+            });
             setTimeout(function() {
                 line.animate(1.0);
-                line2.animate(1.0);
-                line3.animate(1.0);
-            }, 1800);
-            firstTime = true;
-        }
+            }, 1500);
+        });
+        isFirst = false;
     });
+
+    // 滚动字
     $(".rotate").textrotator({
        animation: "flipUp",
-        speed: 3950               
+        speed: 3950
     });
 
     // Function for email address validation
