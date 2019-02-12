@@ -78,6 +78,7 @@ var app = new Vue({
             isEnd: false // 没有数据了
         },
         contents: [],
+        contents_bak: [],
         detail: null
     },
     methods: {
@@ -131,6 +132,8 @@ var app = new Vue({
                 if(callback){
                     callback();
                 }
+                main.contents.pushAll(main.contents_bak);
+                main.contents_bak = [];
                 main.loading = false;
                 return ;
             }
@@ -144,7 +147,7 @@ var app = new Vue({
             main.$http.get(url).then(function (res) {
                 var article = parseMd(res.bodyText);
                 article.index = main.page.article_index++;
-                main.contents.push(article);
+                main.contents_bak.push(article);
                 main.loadData(main, callback);
             })
         },
