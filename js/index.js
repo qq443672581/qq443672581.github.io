@@ -60,6 +60,13 @@ var config = {
 var app = new Vue({
     el: "#app",
     data: {
+        menus:[
+            {title:"技术",code:"x"},
+            {title:"生活",code:"y"},
+            {title:"图像",code:"time"},
+            {title:"音乐",code:"time"},
+            {title:"关于我",type:"goto",code:"data/me.html"}
+        ].reverse(),
         loading: true,
         page:{
             menu_index:config.maxMenu,
@@ -74,6 +81,16 @@ var app = new Vue({
         detail: null
     },
     methods: {
+        menuGoTo:function(menu){
+            if(!menu){
+                return ;
+            }
+            if(menu.type === "goto"){
+                location.href = menu.code;
+            }else{
+
+            }
+        },
         // 加载一个菜单进来
         loadMenu: function (main) {
             // 检查上一次加载的数据是不是还够用
@@ -174,4 +191,5 @@ var app = new Vue({
     }
 });
 app.look(0);
+app.menuGoTo();
 

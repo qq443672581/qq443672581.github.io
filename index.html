@@ -14,11 +14,7 @@
             <div class="left">
             </div>
             <ul class="right">
-                <li><a href="#">关于</a></li>
-                <li><a href="#">音乐</a></li>
-                <li><a href="#">图像</a></li>
-                <li><a href="#">文章</a></li>
-                <li><a href="#">时间</a></li>
+                <li v-for="item in menus"><a href="javascript:void(0)" @click="menuGoTo(item)">{{item.title}}</a></li>
             </ul>
         </div>
     </div>
