@@ -61,10 +61,8 @@ var config = {
     // 当 data/menu/ 下  xxx.json 最大索引变化时，这里也要对应变化
     maxMenu: 1,
     menus: [
-        {title: "技术", code: "x"},
-        {title: "生活", code: "y"},
-        {title: "图像", code: "time"},
-        {title: "音乐", code: "time"},
+        {title: "技术", type: "goto", code: "https://me.csdn.net/qq_20907623"},
+        {title: "生活", code: "life"},
         {title: "关于我", type: "goto", code: "data/me/index.html"}
     ]
 };
