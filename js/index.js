@@ -62,6 +62,7 @@ var config = {
     maxMenu: 1,
     menus: [
         {title: "技术", type: "goto", code: "https://me.csdn.net/qq_20907623"},
+        {title: "Github", type: "goto", code: "https://github.com/qq443672581"},
         {title: "生活", code: "life"},
         {title: "我", type: "goto", code: "data/me/index.html"}
     ]
